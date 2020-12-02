@@ -21,7 +21,7 @@
         <h1>/user/removeFriend/{u_id}/{f_id} - GET usuwanie przyjaciela (f_id) użytkownikowi (u_id)</h1>
         <h1>/user/delete/id - GET usuwanie użytkownika (id)</h1>
 
-        <h1>/sendEmail - GET wysyła email potwierdzająy rejestracje (w Json podać email użytkownika)</h1>git
+        <h1>/sendEmail - GET wysyła email potwierdzająy rejestracje (w Json podać email użytkownika)</h1>
 
 </body>
 </html>
