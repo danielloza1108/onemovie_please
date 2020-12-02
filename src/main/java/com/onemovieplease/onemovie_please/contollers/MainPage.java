@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/")
 public class MainPage{
     @GetMapping("")
-    @ResponseBody
     public String mainPage() {
         return "mainPage";
     }
