@@ -37,7 +37,7 @@ public class EmailTestController {
         context.setVariable("header", "OneMoviePlease");
         context.setVariable("title", "Potwierdzenie rejestracji");
         context.setVariable("description", "Kliknij aby potwierdzić");
-        context.setVariable("userEmail","http://localhost:8080/setRegister/"+user1.getHash());
+        context.setVariable("userEmail","https://onemovieplease.herokuapp.com/setRegister/"+user1.getHash());
         String body =iTemplateEngine.process("template", context);
         emailService.prepareAndSend(user.getEmail(), "Potwierdzenie rejestracji", body);
     }
