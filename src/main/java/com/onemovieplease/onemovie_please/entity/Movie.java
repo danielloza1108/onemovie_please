@@ -1,16 +1,10 @@
 package com.onemovieplease.onemovie_please.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-
 import javax.persistence.*;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "movie")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,21 +13,41 @@ public class Movie {
     @Column(name = "vote_count")
     private int voteCount;
     private boolean video;
-    private long movie_id;
+    private int movie_id;
     private boolean adult;
+    private LocalDate date;
     @Column(name = "poster_path")
-    @JsonProperty("poster_path")
     private String posterPath;
     @Column(name = "original_language")
     private String originalLanguage;
     @Column(name = "original_title")
     private String originalTitle;
-    @ManyToOne
-    private Genere generesIds;
+    private String generesIds;
     private String title;
     @Column(name = "vote_avg")
     private double voteAvg;
+    @Column(length = 1000)
     private String overview;
+
+    public Movie(double popularity, int voteCount, boolean video, int movie_id, boolean adult, LocalDate date, String posterPath, String originalLanguage, String originalTitle, String generesIds, String title, double voteAvg, String overview) {
+        this.popularity = popularity;
+        this.voteCount = voteCount;
+        this.video = video;
+        this.movie_id = movie_id;
+        this.adult = adult;
+        this.date = date;
+        this.posterPath = posterPath;
+        this.originalLanguage = originalLanguage;
+        this.originalTitle = originalTitle;
+        this.generesIds = generesIds;
+        this.title = title;
+        this.voteAvg = voteAvg;
+        this.overview = overview;
+    }
+
+    public Movie() {
+
+    }
 
     @Override
     public String toString() {
@@ -52,6 +66,14 @@ public class Movie {
                 ", voteAvg=" + voteAvg +
                 ", overview='" + overview + '\'' +
                 '}';
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Long getId() {
@@ -90,9 +112,11 @@ public class Movie {
         return movie_id;
     }
 
-    public void setMovie_id(long movie_id) {
+    public void setMovie_id(int movie_id) {
         this.movie_id = movie_id;
     }
+
+
 
     public boolean isAdult() {
         return adult;
@@ -126,11 +150,11 @@ public class Movie {
         this.originalTitle = originalTitle;
     }
 
-    public Genere getGeneresIds() {
+    public String getGeneresIds() {
         return generesIds;
     }
 
-    public void setGeneresIds(Genere generesIds) {
+    public void setGeneresIds(String generesIds) {
         this.generesIds = generesIds;
     }
 

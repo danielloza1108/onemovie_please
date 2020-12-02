@@ -25,5 +25,6 @@ public interface UserDao extends JpaRepository<User,Long> {
     @Transactional
     @Query(value = "DELETE FROM user_friends WHERE user_id =:u_id AND friends_id =:f_id",
             nativeQuery = true)
-    void removeFriend(Long u_id, Long f_id);
+    void removeFriend(@Param("u_id") Long u_id, @Param("f_id") Long f_id);
+    User findByHash(String hash);
 }

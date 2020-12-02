@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class MovieApi {
-    public void getFilmFromApi(){
+    public MovieDto getFilmFromApi(){
         RestTemplate restTemplate = new RestTemplate();
         String fooResourceUrl
                 = "https://api.themoviedb.org/3/discover/movie?api_key=ae22655d10ba154730725dc320931685&language=en" +
@@ -15,5 +15,6 @@ public class MovieApi {
         assert movies != null;
         System.out.println(movies.getMovie()[0].getTitle());
 
+        return movies;
     }
 }

@@ -1,12 +1,16 @@
 package com.onemovieplease.onemovie_please.contollers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.onemovieplease.onemovie_please.classes.MovieMain;
 import com.onemovieplease.onemovie_please.dao.UserDao;
 import com.onemovieplease.onemovie_please.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +20,11 @@ import java.util.Optional;
 public class UserController{
 
     private final UserDao userDao;
-
-    public UserController(UserDao userDao)   {
+    private final MovieMain movieMain;
+    @Autowired
+    public UserController(UserDao userDao, MovieMain movieMain)   {
         this.userDao = userDao;
+        this.movieMain = movieMain;
     }
 
     @GetMapping("/list")
@@ -29,20 +35,32 @@ public class UserController{
 
     @PostMapping("/save")
     public void add(@RequestBody User user){
+        BCryptPasswordEncoder bCryptPasswordEncoder =
+                new BCryptPasswordEncoder(10, new SecureRandom());
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        String hash = movieMain.givenUsingJava8_whenGeneratingRandomAlphanumericString_thenCorrect();
+            while (null != userDao.findByHash(hash)){
+                hash = movieMain.givenUsingJava8_whenGeneratingRandomAlphanumericString_thenCorrect();
+            }
+            user.setPassword(encodedPassword);
+            user.setHash(hash);
         userDao.save(user);
 
     }
 
     @GetMapping("/checkLogin")
     public User checkLogin(@RequestBody ObjectNode json, HttpServletRequest request){
-
+        BCryptPasswordEncoder bCryptPasswordEncoder =
+                new BCryptPasswordEncoder(10, new SecureRandom());
         if(userDao.findByEmail(json.get("email").asText()) != null){
             User user = userDao.findByEmail(json.get("email").asText());
-            if(user.getPassword().equals(json.get("password").asText())){
-                HttpSession session = request.getSession();
-                session.setAttribute("user_id",user.getId());
-                session.setAttribute("user_email",user.getEmail());
-                session.setAttribute("user_name",user.getName());
+            if(bCryptPasswordEncoder.matches(json.get("password").asText(),user.getPassword())){
+                if(user.isActive()) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user_id", user.getId());
+                    session.setAttribute("user_email", user.getEmail());
+                    session.setAttribute("user_name", user.getName());
+                }
                 return user;
             }
         }

@@ -5,11 +5,9 @@ import com.onemovieplease.onemovie_please.entity.User;
 import com.onemovieplease.onemovie_please.service.EmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.HttpRequestHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -33,23 +31,21 @@ public class EmailTestController {
 
     @GetMapping("/sendEmail")
     @ResponseBody
-    public void sampleEmail(@RequestBody User user, HttpServletRequest request) throws MessagingException {
+    public void sampleEmail(@RequestBody User user, HttpServletRequest request, Model model) throws MessagingException {
         Context context = new Context();
+        User user1 = userDao.findByEmail(user.getEmail());
         context.setVariable("header", "OneMoviePlease");
         context.setVariable("title", "Potwierdzenie rejestracji");
         context.setVariable("description", "Kliknij aby potwierdzić");
+        context.setVariable("userEmail","http://localhost:8080/setRegister/"+user1.getHash());
         String body =iTemplateEngine.process("template", context);
-        HttpSession session = request.getSession();
-        System.out.println(user.getEmail());
-        session.setAttribute("email",user.getEmail());
         emailService.prepareAndSend(user.getEmail(), "Potwierdzenie rejestracji", body);
     }
 
-    @GetMapping("/setRegister")
+    @GetMapping("/setRegister/{hash}")
     @ResponseBody
-    public String setRegistry(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        User user = userDao.findByEmail((String) session.getAttribute("email"));
+    public String setRegistry(HttpServletRequest request, @PathVariable String hash){
+        User user = userDao.findByHash(hash);
         user.setActive(true);
         userDao.save(user);
         return "Konto jest już aktywne";

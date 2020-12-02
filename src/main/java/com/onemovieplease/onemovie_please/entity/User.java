@@ -18,10 +18,17 @@ public class User {
     @Column(name = "is_active",columnDefinition = "boolean default false")
     private boolean isActive;
     private String password;
+    private String hash;
     @ManyToMany
     private List<User> friends;
 
+    public String getHash() {
+        return hash;
+    }
 
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
 
     public boolean isActive() {
         return isActive;
