@@ -9,6 +9,8 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "user_id")
+    private Long userId;
     private double popularity;
     @Column(name = "vote_count")
     private int voteCount;
@@ -66,6 +68,14 @@ public class Movie {
                 ", voteAvg=" + voteAvg +
                 ", overview='" + overview + '\'' +
                 '}';
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public LocalDate getDate() {

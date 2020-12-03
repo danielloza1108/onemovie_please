@@ -18,4 +18,5 @@ public interface MovieDao extends JpaRepository<Movie,Long> {
             nativeQuery = true)
     void saveMovie(boolean adult, LocalDate date, String generes_ids, long movie_id, String original_language, String original_title
     , String overview,double popularity, String poster_path, String title, boolean video, double vote_avg, int vote_count);
+    Movie findByMovie_id(Long movieId);
 }

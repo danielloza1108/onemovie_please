@@ -1,5 +1,7 @@
 package com.onemovieplease.onemovie_please.classes;
 
+import javax.persistence.Entity;
+
 public class Movie2 {
     private String posterPath;
     private String voteAvg;
