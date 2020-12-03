@@ -9,8 +9,6 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "user_id")
-    private Long userId;
     private double popularity;
     @Column(name = "vote_count")
     private int voteCount;
@@ -30,6 +28,8 @@ public class Movie {
     private double voteAvg;
     @Column(length = 1000)
     private String overview;
+    @Column(name = "user_id")
+    private Long userId;
 
     public Movie(double popularity, int voteCount, boolean video, int movie_id, boolean adult, LocalDate date, String posterPath, String originalLanguage, String originalTitle, String generesIds, String title, double voteAvg, String overview) {
         this.popularity = popularity;
