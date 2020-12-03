@@ -1,13 +1,7 @@
 package com.onemovieplease.onemovie_please.classes;
 
-import com.onemovieplease.onemovie_please.dao.MovieDao;
-import com.onemovieplease.onemovie_please.entity.Movie;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 @Repository
 public class MovieMain{
